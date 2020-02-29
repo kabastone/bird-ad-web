@@ -1,0 +1,23 @@
+<footer class="footer" [ngClass]="{'has-cards': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login'}">
+
+  <div class="container">
+    <div class="row row-grid align-items-center" [ngClass]="{'my-md': getPath()!=='/user-profile' && getPath()!=='/register' && getPath()!=='/login', 'mb-5':getPath()==='/user-profile' || getPath()==='/register' || getPath()==='/login'}">
+     
+      <div class="col-lg-12 text-lg-right btn-wrapper">
+        <a target="_blank" href="#" class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg" ngbTooltip="Follow us">
+          <i class="fa fa-twitter"></i>
+        </a>
+        <a target="_blank" href="#" class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg" ngbTooltip="Like us">
+          <i class="fa fa-facebook-square"></i>
+        </a>
+        <a target="_blank" href="#" class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round" ngbTooltip="Follow us">
+          <i class="fa fa-dribbble"></i>
+        </a>
+        <a target="_blank" href="#" class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg" ngbTooltip="Star on Github">
+          <i class="fa fa-github"></i>
+        </a>
+      </div>
+    </div>
+    <hr>
+  </div>
+</footer>

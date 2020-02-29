@@ -1,0 +1,163 @@
+<section class="section pb-0 section-components">
+  <div class="container mb-5">
+    <div class="row">
+      <div class="col-lg-12 col-sm-6">
+        <div class="form-group" [ngClass]="{'focused':focus1===true}">
+          <div class="input-group input-group-alternative mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="ni ni-zoom-split-in"></i></span>
+            </div>
+            <input class="form-control" 
+            placeholder="Search" 
+            type="text" 
+            [(ngModel)]="searchTerms"
+            (focus)="focus1=true" 
+            (blur)="focus1=false">
+            <a class="btn btn-primary"
+            [ngStyle]="{'cursor': 'pointer'}"
+            (click)="sendRequest()">Search</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg">
+      
+    <ul class="navbar-nav navbar-nav-hover">
+      
+      <li class="nav-item dropdown">
+        
+        <a class="nav-link no-caret" data-toggle="dropdown" role="button">
+          <i class="ni ni-ui-04 d-lg-none"></i>
+          <span>Filtrer par: </span> <span class="nav-link-inner--text">Pays</span>
+        </a>
+       
+        <div class="dropdown-menu-xl dropdown-menu" >
+          <div class="dropdown-menu-inner">
+            <a routerLinkActive="active" 
+            [routerLink]="['.']" 
+            [queryParams]="{ad_reached_countries: 'AL'}"
+            class="media d-flex align-items-center">
+             <!--  <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
+                <i class="ni ni-spaceship"></i>
+              </div> -->
+              <div class="media-body ml-3">
+                <h6 class="heading text-primary mb-md-1">Allemagne</h6>
+                <!-- <p class="description d-none d-md-inline-block mb-0">Learn how to use Argon compiling Scss, change brand colors and more.</p> -->
+              </div>
+            </a>
+            <a routerLinkActive="active" 
+            [routerLink]="['.']"
+            [queryParams]="{ad_reached_countries: 'FR'}"
+             class="media d-flex align-items-center">
+              <!-- <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                <i class="ni ni-palette"></i>
+              </div> -->
+              <div class="media-body ml-3">
+                <h6 class="heading text-primary mb-md-1">France</h6>
+  <!--                 <p class="description d-none d-md-inline-block mb-0">Learn more about colors, typography, icons and the grid system we used for Argon.</p> -->
+              </div>
+          
+            </a>
+            <a routerLinkActive="active" 
+            [routerLink]="['.']" 
+            [queryParams]="{ad_reached_countries: 'US'}"
+            class="media d-flex align-items-center">
+              <!-- <div class="icon icon-shape bg-gradient-warning rounded-circle text-white">
+                <i class="ni ni-ui-04"></i>
+              </div> -->
+              <div class="media-body ml-3">
+                <h5 class="heading text-warning mb-md-1">Etat Unis</h5>
+  <!--                 <p class="description d-none d-md-inline-block mb-0">Browse our 50 beautiful handcrafted components offered in the Free version.</p> --> 
+             </div>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        
+        <a class="nav-link no-caret" data-toggle="dropdown" role="button">
+          <i class="ni ni-ui-04 d-lg-none"></i>
+          <span class="nav-link-inner--text">Likes</span>
+        </a>
+       
+        <div class="dropdown-menu-xl dropdown-menu" >
+          <div class="dropdown-menu-inner">
+            <a routerLinkActive="active" 
+            [routerLink]="['.']" 
+            class="media d-flex align-items-center">
+             <!--  <div class="icon icon-shape bg-gradient-primary rounded-circle text-white">
+                <i class="ni ni-spaceship"></i>
+              </div> -->
+              <div class="media-body ml-3">
+                <h6 class="heading text-primary mb-md-1">Total like</h6>
+                <!-- <p class="description d-none d-md-inline-block mb-0">Learn how to use Argon compiling Scss, change brand colors and more.</p> -->
+              </div>
+            </a>
+            <a routerLinkActive="active" 
+            [routerLink]="['.']"
+             class="media d-flex align-items-center">
+              <!-- <div class="icon icon-shape bg-gradient-success rounded-circle text-white">
+                <i class="ni ni-palette"></i>
+              </div> -->
+              <div class="media-body ml-3">
+                <h6 class="heading text-primary mb-md-1">Like par jour</h6>
+  <!--                 <p class="description d-none d-md-inline-block mb-0">Learn more about colors, typography, icons and the grid system we used for Argon.</p> -->
+              </div>
+          
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        
+        <a class="nav-link no-caret" data-toggle="dropdown" role="button">
+          
+          <span class="nav-link-inner--text">Date début </span>
+          <div class="form-group" [ngClass]="{'focused':focus2===true}">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+          </div>
+          <input class="form-control datepicker" placeholder="Choisir date" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (focus)="focus2=true" (blur)="focus2=false" type="text" (select)="onDateSelection($event)" autocomplete="off"/>
+        </div>
+      </div>
+        </a>
+      </li>
+      <li class="nav-item">
+        
+        <a class="nav-link no-caret" data-toggle="dropdown" role="button">
+          
+          <span class="nav-link-inner--text">Date fin </span>
+          <div class="form-group" [ngClass]="{'focused':focus2===true}">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+          </div>
+          <input class="form-control datepicker" placeholder="Choisir date" name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (focus)="focus2=true" (blur)="focus2=false" type="text" (select)="onDateSelection($event)" autocomplete="off"/>
+        </div>
+      </div>
+        </a>
+      </li>
+    </ul>
+    </nav>
+  </div>
+ 
+  
+</section>
+
+  <div class="container">
+    <div class="row justify-content-center" >
+      <div class="col-lg-12">
+        <div class="row row-grid">
+          <app-listad [ad]= "ad" *ngFor="let ad of listads.data" 
+          [ngStyle]="{'padding-bottom': '5px'}">
+          </app-listad>
+        </div>
+      </div>
+    </div>
+  </div>  
+  
+  
+
+
+
