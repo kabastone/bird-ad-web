@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ListadComponent } from './listad/listad.component';
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DatePickerComponent } from "../shared/date-picker/date-picker.component";
 
 @NgModule({
     imports: [
@@ -15,7 +16,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         RouterModule,
         NgbModule
     ],
-    declarations: [BirdadHomeComponent, ListadComponent],
+    declarations: [
+        BirdadHomeComponent, 
+        ListadComponent,
+        DatePickerComponent,
+    ],
     exports: [BirdadHomeComponent],
     providers: []
 })

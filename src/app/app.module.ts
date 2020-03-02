@@ -19,7 +19,8 @@ import { BirdadHomeComponent } from './birdad-home/birdad-home.component';
 import { BirdadHomeModule } from './birdad-home/birdad-home.module';
 import { NavigationSectionComponent } from './sections/navigation-section/navigation-section.component';
 import { MyNavbarComponent } from './shared/my-navbar/my-navbar.component';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { DatePickerComponent } from './shared/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
