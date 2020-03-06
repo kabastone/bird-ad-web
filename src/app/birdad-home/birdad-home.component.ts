@@ -1,16 +1,20 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { SearchAdsService } from '../shared/search-ads.service';
 import { Response } from '../shared/model/Response.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Parameter } from '../shared/model/parameter.model';
-import { NgbDate, NgbModal, NgbCalendar, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbModal, NgbCalendar, ModalDismissReasons, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, Subscription } from 'rxjs';
+import { Advertisement } from '../shared/model/Advertisement.model';
 
 @Component({
   selector: 'app-birdad-home',
   templateUrl: './birdad-home.component.html',
   styleUrls: ['./birdad-home.component.css']
 })
-export class BirdadHomeComponent implements OnInit {
+export class BirdadHomeComponent implements OnInit, OnDestroy {
+  
+  listeChangeSubject: Subscription;
   fromDate: NgbDate;
   toDate: NgbDate;
   hoveredDate: NgbDate;
@@ -34,7 +38,8 @@ searchTerms:string;
   constructor(private searchAdService: SearchAdsService, 
     private route:ActivatedRoute,
     private router: Router,
-    private modalService: NgbModal, calendar: NgbCalendar) { 
+    private modalService: NgbModal, calendar: NgbCalendar,
+    private dateformater:NgbDateParserFormatter) { 
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
     }
@@ -87,18 +92,40 @@ searchTerms:string;
     this.route.queryParams.subscribe(
       (params: Params) => {
          if(params['search_terms'] && params['ad_reached_countries']){
-           console.log(params);
           this.searchAdService.fetchAds(params).subscribe(
             response => { 
-              this.listads = response
+              console.log(this.model1, this.model2);
+              this.listads.data = this.searchAdService.filterByDate(response, this.model1, this.model2)
                console.log(this.listads.data)
-               this.router.navigate(['.'])
+               //this.router.navigate(['.'])
             }); 
          }
       });
-
   }
   sendRequest() {
       this.router.navigate(['.'], {queryParams:{search_terms: this.searchTerms}, queryParamsHandling:'merge'})
   }
+  onStartDateSelection(event) {
+      console.log(event);
+      this.router.navigate(['.'], {
+        queryParams:{start_date: this.dateformater.format(this.model1)}, 
+        queryParamsHandling: 'merge'
+      });
+  }
+
+  onStopDateSelection(event) {
+    
+    this.router.navigate(['.'], {
+      queryParams:{stop_date: this.dateformater.format(this.model2)},
+      queryParamsHandling: 'merge'
+    });
+}
+
+onDateChange(d) {
+  console.log(this.model1);
+}
+  ngOnDestroy(): void {
+    this.listeChangeSubject.unsubscribe;
+  }
+  
 }

@@ -4,14 +4,47 @@
                 <div class="icon icon-shape icon-shape-primary rounded-circle mb-4">
                   <i class="ni ni-check-bold"></i>
                 </div>
-                <h6 class="text-primary text-uppercase">{{ad.id}}</h6>
-                <p class="description mt-3">{{ad.page_id}}</p>
-                <div>
-                  <span class="badge badge-pill badge-primary">angular</span>
-                  <span class="badge badge-pill badge-primary">ng-bootstrap</span>
-                  <span class="badge badge-pill badge-primary">creative</span>
+                <div class="row">
+                  <div class="col-sm-5">
+                    <p class="text-muted font-weight-bold" style="font-size: smaller;">Pub ID</p>
+                  </div>
+                  <div class="col-sm-7">
+                    <span class="badge badge-pill badge-success">{{ad.id}}</span>
+                  </div>
                 </div>
-                <a [href]="ad.ad_snapshot_url" target="about_blank" class="btn btn-primary mt-4">Learn more</a>
+                <div class="row">
+                  <div class="col-5">
+                    <p class="text-muted font-weight-bold" style="font-size: smaller;">Page ID</p>
+                  </div>
+                  <div class="col-7">
+                    <span class="badge badge-pill badge-success">{{ad.page_id}}</span>
+                  </div>
+                </div>
+               
+                <div class="row">
+                  <div class="col-7">
+                    <span class="badge badge-pill badge-primary">Likes  </span>
+                  </div>
+                  <div class="col-5">
+                    <span class="badge badge-pill badge-primary">
+                      300
+                      <i class="ni ni-like-2"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-7">
+                    <span class="badge badge-pill badge-primary">Abonnements  </span>
+                  </div>
+                  <div class="col-5">
+                    <span class="badge badge-pill badge-primary">
+                      2,7k
+                      <i class="ni ni-bell-55"></i>
+                    </span>
+                  </div>
+                </div>
+                
+                <a [href]="ad.ad_snapshot_url" target="about_blank" class="btn btn-primary mt-4">Plus d'infos</a>
               </div>
             </div>
           </div>
