@@ -43,16 +43,16 @@
           </div>
         </div>
       </li>
-      <li class="nav-item">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Likes</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem [routerLink]="['.']">
-            Total likes
-          </button>
-            <button ngbDropdownItem [routerLink]="['.']">
-              Total Abonnés
-            </button>
+      <li class="nav-item mt-2">
+        <div class="form-group" [ngClass]="{'focused':focus===true}">
+          <div class="input-group">
+            <input type="text" class="form-control"
+            placeholder="Nombre de like"
+            name="nbl"
+            [(ngModel)]="nbrLike"
+            (focus)="focus=true"
+           (blur)="focus=false"
+           (change)="onNbrLikeChange()" >
           </div>
         </div>
       </li>

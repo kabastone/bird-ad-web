@@ -13,7 +13,7 @@ import { Advertisement } from '../shared/model/Advertisement.model';
   styleUrls: ['./birdad-home.component.css']
 })
 export class BirdadHomeComponent implements OnInit, OnDestroy {
-  
+  nbrLike: number
   listeChangeSubject: Subscription;
   fromDate: NgbDate;
   toDate: NgbDate;
@@ -92,11 +92,11 @@ searchTerms:string;
     this.route.queryParams.subscribe(
       (params: Params) => {
          if(params['search_terms'] && params['ad_reached_countries']){
+           console.log(true);
           this.searchAdService.fetchAds(params).subscribe(
             response => { 
-              console.log(this.model1, this.model2);
-              this.listads.data = this.searchAdService.filterByDate(response, this.model1, this.model2)
-               console.log(this.listads.data)
+             this.listads.data = this.filterListAds(response, this.model1, this.model2, this.nbrLike)
+              console.log(this.listads.data)
                //this.router.navigate(['.'])
             }); 
          }
@@ -124,8 +124,21 @@ searchTerms:string;
 onDateChange(d) {
   console.log(this.model1);
 }
+filterListAds(response ,dateStart, dateStop, nbrLike){
+  if(dateStart || dateStop){
+    return this.searchAdService.filterByDate(response, dateStart, dateStop);
+  }
+  if(nbrLike) {
+    console.log(true)
+    return this.searchAdService.filterByLike(response, nbrLike);
+  }
+  return response.data;
+}
+onNbrLikeChange() {
+  this.router.navigate(['.'], {queryParams:{fan_count: this.nbrLike}, queryParamsHandling:'merge'})
+}
   ngOnDestroy(): void {
     this.listeChangeSubject.unsubscribe;
   }
-  
+ 
 }
