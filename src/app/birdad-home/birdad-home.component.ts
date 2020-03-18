@@ -35,6 +35,8 @@ focus4;
 listads= new Response();
 parameters = [];
 searchTerms:string;
+error: boolean;
+
   constructor(private searchAdService: SearchAdsService, 
     private route:ActivatedRoute,
     private router: Router,
@@ -91,6 +93,7 @@ searchTerms:string;
   ngOnInit() {
     this.route.queryParams.subscribe(
       (params: Params) => {
+        this.error = false;
          if(params['search_terms'] && params['ad_reached_countries']){
            console.log(true);
           this.searchAdService.fetchAds(params).subscribe(
@@ -99,7 +102,7 @@ searchTerms:string;
               console.log(this.listads.data)
                //this.router.navigate(['.'])
             }); 
-         }
+         } else this.error= !this.error;
       });
   }
   sendRequest() {
