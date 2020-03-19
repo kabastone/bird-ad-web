@@ -27,26 +27,21 @@
       </div>
     </div>
  
-    <div class="alert alert-danger" role="alert" *ngIf="error">
-      Entrez un terme ou selectionnez un pays !
+    <div class="mb-3" *ngIf="error">
+      <ngb-alert type="danger" (close)="close()">
+        <span class="alert-inner--text"> Entrez un terme et selectionnez un pays !</span>
+      </ngb-alert>
+     
     </div>
     <ul class="nav">
       <small class="d-block text-uppercase font-weight-bold mb-3 mr-2">Filtrer par: </small>
       <li class="nav-item">
         <div ngbDropdown class="d-inline-block">
           <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Pays</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem [routerLink]="['.']"
-            [queryParams]="{ad_reached_countries: 'AL'}">
-            Allemagne
-          </button>
-            <button ngbDropdownItem [routerLink]="['.']"
-            [queryParams]="{ad_reached_countries: 'FR'}">
-              France
-            </button>
-            <button ngbDropdownItem [routerLink]="['.']"
-            [queryParams]="{ad_reached_countries: 'US'}">
-            Etat Unis
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="force-scroll">
+            <button *ngFor="let country of countriesCode" ngbDropdownItem [routerLink]="['.']"
+            [queryParams]="{ad_reached_countries: country.alpha2Code}">
+            {{country.name}}
           </button>
           </div>
         </div>
@@ -90,9 +85,7 @@
         </div>
       </div>
         </a>
-      </li>
-     
-      
+      </li>    
     </ul>
   </div>
  

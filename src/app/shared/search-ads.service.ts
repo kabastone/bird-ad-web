@@ -6,6 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { Advertisement } from './model/Advertisement.model';
 import { NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { PageFancount } from './model/page-fancount.model';
+import { map } from 'rxjs/operators' ;
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,16 @@ export class SearchAdsService {
     
     return this.httpClient.get<Response>(this.url, 
       {params: params});
+  }
+  fetchCountriesCodes() {
+    return this.httpClient.get('https://restcountries.eu/rest/v2/all')
+    .pipe(map( responseData => {
+      const arrayCountries = []
+      for(const key in responseData) {
+          arrayCountries.push({name: responseData[key].name, alpha2Code: responseData[key].alpha2Code})
+      }
+      return arrayCountries;
+    }))
   }
   filterByDate(listads:Response, dateStart:NgbDate, dateStop:NgbDate){
     if(dateStart && dateStop){

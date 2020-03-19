@@ -36,6 +36,7 @@ listads= new Response();
 parameters = [];
 searchTerms:string;
 error: boolean;
+countriesCode = [];
 
   constructor(private searchAdService: SearchAdsService, 
     private route:ActivatedRoute,
@@ -91,11 +92,13 @@ error: boolean;
     }
   }
   ngOnInit() {
+    this.searchAdService.fetchCountriesCodes().subscribe(
+      response => this.countriesCode = response
+    );
     this.route.queryParams.subscribe(
       (params: Params) => {
         this.error = false;
          if(params['search_terms'] && params['ad_reached_countries']){
-           console.log(true);
           this.searchAdService.fetchAds(params).subscribe(
             response => { 
              this.listads.data = this.filterListAds(response, this.model1, this.model2, this.nbrLike)
@@ -106,7 +109,13 @@ error: boolean;
       });
   }
   sendRequest() {
-      this.router.navigate(['.'], {queryParams:{search_terms: this.searchTerms}, queryParamsHandling:'merge'})
+      if(this.searchTerms){
+        this.router.navigate(['.'], {queryParams:{search_terms: this.searchTerms}, queryParamsHandling:'merge'})
+      }
+      else{
+        this.error= !this.error;
+      }
+      
   }
   onStartDateSelection(event) {
       console.log(event);
@@ -139,6 +148,10 @@ filterListAds(response ,dateStart, dateStop, nbrLike){
 }
 onNbrLikeChange() {
   this.router.navigate(['.'], {queryParams:{fan_count: this.nbrLike}, queryParamsHandling:'merge'})
+} 
+
+close(){
+  this.error = !this.error;
 }
   ngOnDestroy(): void {
     this.listeChangeSubject.unsubscribe;
