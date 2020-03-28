@@ -15,12 +15,19 @@ export class SearchAdsService {
   url='http://localhost:8080/birdads';
   httpParams:HttpParams; 
   listAdChange = new Subject<Advertisement[]>();
+  codesArray= [];
   constructor(private httpClient: HttpClient, private dateformater: NgbDateParserFormatter) { }
 
   fetchAds(params) {
+      return this.httpClient.get<Response>(this.url, 
+        {params: params});
     
+  }
+  fetchAdsDefault(codes){
+    this.httpParams = new HttpParams();
+    this.httpParams = this.httpParams.append('ad_reached_countries', codes);
     return this.httpClient.get<Response>(this.url, 
-      {params: params});
+      {params: this.httpParams});
   }
   fetchCountriesCodes() {
     return this.httpClient.get('https://restcountries.eu/rest/v2/all')
@@ -72,8 +79,14 @@ export class SearchAdsService {
 
    isNbrLikeExist(nbr1, nbr2 ){
      if(nbr1) {
-       return nbr1 == nbr2
+       return nbr1 >= nbr2
      }
      return false
    }
+   fetchCode(countries) {
+    return countries.map( 
+      countrie => { 
+        return countrie.alpha2Code
+    });
+  }
 }

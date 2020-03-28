@@ -37,6 +37,8 @@ parameters = [];
 searchTerms:string;
 error: boolean;
 countriesCode = [];
+isEmptyList: boolean = false;
+allCountriesCode:String[]=[];
 
   constructor(private searchAdService: SearchAdsService, 
     private route:ActivatedRoute,
@@ -45,6 +47,7 @@ countriesCode = [];
     private dateformater:NgbDateParserFormatter) { 
       this.fromDate = calendar.getToday();
       this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+      
     }
 
     open(content, type, modalDimension) {
@@ -93,29 +96,47 @@ countriesCode = [];
   }
   ngOnInit() {
     this.searchAdService.fetchCountriesCodes().subscribe(
-      response => this.countriesCode = response
+      response => {
+      this.countriesCode = response;
+      }
     );
     this.route.queryParams.subscribe(
       (params: Params) => {
-        this.error = false;
+        
+         if(!params['ad_reached_countries'] && params['search_terms']){
+            this.searchAdService.fetchCountriesCodes().subscribe(
+            response => {
+            this.countriesCode = response;
+            this.allCountriesCode = this.searchAdService.fetchCode(this.countriesCode);
+            this.allCountriesCode=this.allCountriesCode.slice(0,54);
+            this.allCountriesCode.push(...['BR','GB','US'])
+            this.router.navigate(['.'], {queryParams:{ad_reached_countries: this.allCountriesCode.join(',')}, queryParamsHandling:'merge'})
+            //params = {search_terms: '""', ad_reached_countries: this.allCountriesCode.join(',')}; 
+             /* this.searchAdService.fetchAds({ad_reached_countries: this.allCountriesCode.join(',')}).subscribe(
+              response => this.listads= response
+            )  */
+             }  
+          );
+        } 
+       // else{
          if(params['search_terms'] && params['ad_reached_countries']){
           this.searchAdService.fetchAds(params).subscribe(
             response => { 
-             this.listads.data = this.filterListAds(response, this.model1, this.model2, this.nbrLike)
-              console.log(this.listads.data)
-               //this.router.navigate(['.'])
-            }); 
-         } else this.error= !this.error;
+              if (response) {
+                this.listads.data = this.filterListAds(response, this.model1, this.model2, this.nbrLike)
+               }
+               if(this.listads.data.length == 0){
+                 this.isEmptyList = !this.isEmptyList;
+               }
+               this.router.navigate(['.'])
+            });    
+         }
+         
       });
-  }
+  } 
   sendRequest() {
-      if(this.searchTerms){
-        this.router.navigate(['.'], {queryParams:{search_terms: this.searchTerms}, queryParamsHandling:'merge'})
-      }
-      else{
-        this.error= !this.error;
-      }
-      
+    let searchTermParam = (!this.searchTerms)? '""': this.searchTerms;
+        this.router.navigate(['.'], {queryParams:{search_terms: searchTermParam}, queryParamsHandling:'merge'}) 
   }
   onStartDateSelection(event) {
       console.log(event);
@@ -141,7 +162,6 @@ filterListAds(response ,dateStart, dateStop, nbrLike){
     return this.searchAdService.filterByDate(response, dateStart, dateStop);
   }
   if(nbrLike) {
-    console.log(true)
     return this.searchAdService.filterByLike(response, nbrLike);
   }
   return response.data;
@@ -152,6 +172,9 @@ onNbrLikeChange() {
 
 close(){
   this.error = !this.error;
+}
+close2(){
+  this.isEmptyList = !this.isEmptyList;
 }
   ngOnDestroy(): void {
     this.listeChangeSubject.unsubscribe;
